@@ -1,0 +1,27 @@
+{% extends "urbanpassApp/main.html" %}
+
+{% block content %}
+
+<p>Eventos con información de Clientes</p>
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nombre del Cliente</td>
+            <td>Valoración del Evento</td>
+            <td>Comentario</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rate_event in rate_event_list %}
+            <tr>
+                <td>{{rate_event.id_cliente.nombre}} {{rate_event.id_cliente.apellido}}</td>
+                <td>{{rate_event.valoracion}}</td>
+                <td>{{rate_event.comentario}}</td>
+            </tr>
+        {% endfor %}
+     </tbody>
+</table>
+
+
+{% endblock content %}

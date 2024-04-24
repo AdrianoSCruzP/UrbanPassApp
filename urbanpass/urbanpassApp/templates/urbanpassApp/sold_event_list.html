@@ -1,0 +1,31 @@
+{% extends "urbanpassApp/main.html" %}
+
+{% block content %}
+
+<p>Lista de Entradas Vendidas</p>
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Id. De Entrada</td>
+            <td>Nombre del Cliente</td>
+            <td>Nombre del Evento</td>
+            <td>Fecha del Evento</td>
+            <td>Hora del Evento</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sold_event in sold_event_list %}
+            <tr>
+                <td>{{sold_event.id_entrada.id_entrada}}</td>
+                <td>{{sold_event.id_cliente.nombre}}</td>
+                <td>{{sold_event.id_entrada.id_evento.nombre}}</td>
+                <td>{{sold_event.id_entrada.id_evento.fecha}}</td>
+                <td>{{sold_event.id_entrada.id_evento.hora}}</td>
+            </tr>
+        {% endfor %}
+     </tbody>
+</table>
+
+
+{% endblock content %}

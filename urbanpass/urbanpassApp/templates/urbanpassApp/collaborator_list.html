@@ -1,0 +1,29 @@
+{% extends "urbanpassApp/main.html" %}
+
+{% block content %}
+
+<p>Lista de Colaboradores</p>
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nombre</td>
+            <td>Apellido</td>
+            <td>Email</td>
+            <td>Telefono</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for colaborator in colaborator_list %}
+            <tr>
+                <td>{{colaborator.nombre}}</td>
+                <td>{{colaborator.apellido}}</td>
+                <td>{{colaborator.email}}</td>
+                <td>{{colaborator.telefono}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock content %}

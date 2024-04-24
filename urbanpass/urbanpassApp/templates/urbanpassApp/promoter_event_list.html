@@ -1,0 +1,39 @@
+{% extends "urbanpassApp/main.html" %}
+
+{% block content %}
+
+<p>Información de Promotores y Lugares de Evento</p>
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nombre del Evento</td>
+            <td>Fecha del Evento</td>
+            <td>Hora del Evento</td>
+            <td>Nombre del Promotor</td>
+            <td>Apellido del Promotor</td>
+            <td>Teléfono del Promotor</td>
+            <td>Nombre del Lugar</td>
+            <td>Dirección del Lugar</td>
+            <td>Capacidad del Lugar</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for promoter_event in promoter_event_list %}
+            <tr>
+                <td>{{promoter_event.nombre}}</td>
+                <td>{{promoter_event.fecha}}</td>
+                <td>{{promoter_event.hora}}</td>
+                <td>{{promoter_event.id_promotor.nombre}}</td>
+                <td>{{promoter_event.id_promotor.apellido}}</td>
+                <td>{{promoter_event.id_promotor.telefono}}</td>
+                <td>{{promoter_event.id_lugar_evento.nombre}}</td>
+                <td>{{promoter_event.id_lugar_evento.direccion}}</td>
+                <td>{{promoter_event.id_lugar_evento.capacidad}}</td>
+            </tr>
+        {% endfor %}
+     </tbody>
+</table>
+
+
+{% endblock content %}

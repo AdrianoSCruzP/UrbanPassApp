@@ -1,0 +1,27 @@
+{% extends "urbanpassApp/main.html" %}
+
+{% block content %}
+
+<p>Detalle de la entrda</p>
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>ID de Entrada</td>
+            <td>Nombre del Cliente</td>
+            <td>Tipo de Entrada</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking_event in booking_event_list %}
+            <tr>
+                <td>{{booking_event.id_entrada.id_entrada}}</td>
+                <td>{{booking_event.id_cliente.nombre}} {{booking_event.id_cliente.apellido}}</td>
+                <td>{{booking_event.id_entrada.tipo_entrada_id_tipo_entrada.categoria}}</td>
+            </tr>
+        {% endfor %}
+     </tbody>
+</table>
+
+
+{% endblock content %}

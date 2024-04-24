@@ -1,0 +1,33 @@
+{% extends "urbanpassApp/main.html" %}
+
+{% block content %}
+
+<p>Colaboradores de Eventos con información de Eventos</p>
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nombre del Evento</td>
+            <td>Fecha del Evento</td>
+            <td>Hora del Evento</td>
+            <td>Nombre del Colaborador</td>
+            <td>Email del Colaborador</td>
+            <td>Teléfono del Colaborador</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for collaborator_event in collaborator_event_list %}
+            <tr>
+                <td>{{collaborator_event.nombre}}</td>
+                <td>{{collaborator_event.fecha}}</td>
+                <td>{{collaborator_event.hora}}</td>
+                <td>{{collaborator_event.id_colaborades.nombre}} {{collaborator_event.id_colaborades.apellido}}</td>
+                <td>{{collaborator_event.id_colaborades.email}}</td>
+                <td>{{collaborator_event.id_colaborades.telefono}}</td>
+            </tr>
+        {% endfor %}
+     </tbody>
+</table>
+
+
+{% endblock content %}

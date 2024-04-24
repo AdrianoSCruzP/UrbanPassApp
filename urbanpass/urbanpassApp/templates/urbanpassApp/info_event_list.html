@@ -1,0 +1,31 @@
+{% extends "urbanpassApp/main.html" %}
+
+{% block content %}
+
+<p>Lista informacion de los eventos</p>
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nombre del Evento</td>
+            <td>Fecha del Evento</td>
+            <td>Hora del Evento</td>
+            <td>Nombre del Lugar</td>
+            <td>Dirección del Lugar</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for info_event in info_event_list %}
+            <tr>
+                <td>{{info_event.nombre}}</td>
+                <td>{{info_event.fecha}}</td>
+                <td>{{info_event.hora}}</td>
+                <td>{{info_event.id_lugar_evento.nombre}}</td>
+                <td>{{info_event.id_lugar_evento.direccion}}</td>
+            </tr>
+        {% endfor %}
+     </tbody>
+</table>
+
+
+{% endblock content %}
