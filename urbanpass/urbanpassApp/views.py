@@ -13,7 +13,7 @@ def customer_list(request):
     return render (request, "urbanpassApp/customer_list.html", context)
 
 def collaborator_list(request):
-    context = {'collaborator_list': Collaborador.objects.all()}
+    context = {'collaborator_list': Colaborador.objects.all()}
     return render (request, "urbanpassApp/collaborator_list.html", context)
 
 def sold_event_list(request):
