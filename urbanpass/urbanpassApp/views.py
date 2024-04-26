@@ -43,3 +43,7 @@ def rate_event_list(request):
 def collaborator_event_list(request):
     context = {'collaborator_event_list': Evento.objects.select_related('id_colaborador')}
     return render (request, "urbanpassApp/collaborator_event_list.html", context)
+
+def login_view(request):
+    return render(request, 'urbanpassApp/login.html')  # Asegúrate de tener la plantilla HTML adecuada
+
