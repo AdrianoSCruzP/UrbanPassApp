@@ -17,10 +17,10 @@
             <tr>
                 <td>{{specific_event.valoracion}}</td>
                 <td>{{specific_event.comentario}}</td>
-                <td>{{specific_event.id_cliente.nombre}} {{specific_event.id_cliente.apellido}}</td>
+                <td>{{specific_event.id_cliente.id_usuario.nombre}} {{specific_event.id_cliente.id_usuario.apellido}}</td>
             </tr>
         {% endfor %}
-     </tbody>
+    </tbody>
 </table>
 
 

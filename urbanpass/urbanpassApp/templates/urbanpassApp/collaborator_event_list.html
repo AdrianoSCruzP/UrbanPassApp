@@ -21,12 +21,12 @@
                 <td>{{collaborator_event.nombre}}</td>
                 <td>{{collaborator_event.fecha}}</td>
                 <td>{{collaborator_event.hora}}</td>
-                <td>{{collaborator_event.id_colaborades.nombre}} {{collaborator_event.id_colaborades.apellido}}</td>
-                <td>{{collaborator_event.id_colaborades.email}}</td>
-                <td>{{collaborator_event.id_colaborades.telefono}}</td>
+                <td>{{collaborator_event.id_colaborador.id_usuario.nombre}} {{collaborator_event.id_colaborador.id_usuario.apellido}}</td>
+                <td>{{collaborator_event.id_colaborador.id_usuario.email}}</td>
+                <td>{{collaborator_event.id_colaborador.id_usuario.telefono}}</td>
             </tr>
         {% endfor %}
-     </tbody>
+    </tbody>
 </table>
 
 

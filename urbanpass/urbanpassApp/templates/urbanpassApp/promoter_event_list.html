@@ -12,7 +12,6 @@
             <td>Hora del Evento</td>
             <td>Nombre del Promotor</td>
             <td>Apellido del Promotor</td>
-            <td>Teléfono del Promotor</td>
             <td>Nombre del Lugar</td>
             <td>Dirección del Lugar</td>
             <td>Capacidad del Lugar</td>
@@ -24,15 +23,14 @@
                 <td>{{promoter_event.nombre}}</td>
                 <td>{{promoter_event.fecha}}</td>
                 <td>{{promoter_event.hora}}</td>
-                <td>{{promoter_event.id_promotor.nombre}}</td>
-                <td>{{promoter_event.id_promotor.apellido}}</td>
-                <td>{{promoter_event.id_promotor.telefono}}</td>
+                <td>{{promoter_event.id_promotor.id_usuario.nombre}}</td>
+                <td>{{promoter_event.id_promotor.id_usuario.apellido}}</td>
                 <td>{{promoter_event.id_lugar_evento.nombre}}</td>
                 <td>{{promoter_event.id_lugar_evento.direccion}}</td>
                 <td>{{promoter_event.id_lugar_evento.capacidad}}</td>
             </tr>
         {% endfor %}
-     </tbody>
+    </tbody>
 </table>
 
 

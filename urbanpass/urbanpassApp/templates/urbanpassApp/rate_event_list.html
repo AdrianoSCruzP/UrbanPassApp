@@ -15,12 +15,12 @@
     <tbody>
         {% for rate_event in rate_event_list %}
             <tr>
-                <td>{{rate_event.id_cliente.nombre}} {{rate_event.id_cliente.apellido}}</td>
+                <td>{{rate_event.id_cliente.id_usuario.nombre}} {{rate_event.id_cliente.id_usuario.apellido}}</td>
                 <td>{{rate_event.valoracion}}</td>
                 <td>{{rate_event.comentario}}</td>
             </tr>
         {% endfor %}
-     </tbody>
+    </tbody>
 </table>
 
 

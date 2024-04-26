@@ -16,11 +16,11 @@
         {% for booking_event in booking_event_list %}
             <tr>
                 <td>{{booking_event.id_entrada.id_entrada}}</td>
-                <td>{{booking_event.id_cliente.nombre}} {{booking_event.id_cliente.apellido}}</td>
-                <td>{{booking_event.id_entrada.tipo_entrada_id_tipo_entrada.categoria}}</td>
+                <td>{{booking_event.id_cliente.id_usuario.nombre}} {{booking_event.id_cliente.id_usuario.apellido}}</td>
+                <td>{{booking_event.id_entrada.estado}}</td>
             </tr>
         {% endfor %}
-     </tbody>
+    </tbody>
 </table>
 
 
