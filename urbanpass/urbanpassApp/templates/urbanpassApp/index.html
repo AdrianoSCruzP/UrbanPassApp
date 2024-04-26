@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>UrbanPass</title>
+    <style>
+        :root{
+            --primary-yellow: #F2E85C;
+            --secondary-yellow: #E7F294;
+            --primary-mustard: #F2C777; 
+            --gray-1:#F2F2F2;
+            --gray-2:#595959;
+            --black:#0D0D0D;
+            --font: "Roboto", sans-serif;
+            --heading-1-size: 2.5rem;
+            --heading-2-size: 2rem; 
+            --heading-3-size: 1.5rem;
+            --heading-4-size: 1.125rem;
+            --paragraph-size: 1rem;   
+            --small-text-size: 0.875rem;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body{
+            width:100%;
+            overflow-x:hidden;
+        }
+        
+        body, h1, h2, h3, h4, p, ul, ol, li {
+            font-family: var(--font);
+            margin: 0;
+            padding: 0;
+        }
+        
+        body{
+            background-color: var(--primary-white);
+            font-family: var(--font);
+            font-size: var(--paragraph-size);
+        }
+        .navbar-container{
+            position:  fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            transition: 0.7s;
+            z-index: 3;
+            padding: 0;
+            background-color: var(--primary-yellow);
+            color: var(--primary-yellow);
+            text-decoration: none;
+            transition: all 0.2s linear;
+            height: 85px;
+            width: auto;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 5%;
+        }
+        
+        .navbar-container:hover {
+            background-color: var(--primary-yellow); 
+        }
+        
+        header .logo{
+            cursor: pointer;
+        }
+        
+        header .logo img{
+            height: 80px;
+            width: auto;
+            transition: all 0.3s;
+        }
+        
+        header .logo img:hover{
+            transform: scale(1.2);
+        }
+        
+        header .navbar-list{
+            list-style: none;
+        }
+        
+        header .navbar-list li{
+            display: inline-block;
+            padding: 0 20px;    
+        }
+        
+        header .navbar-list li:hover{
+            transform: scale(1.1);
+        }
+        
+        header .navbar-list a{
+            font-size: 700;
+            color: #eceff1;
+            text-decoration: none;    
+        }
+        
+        header .navbar-list li a:hover{
+            color: var(--black);
+        }
+        
+        #sign-up{
+            padding: 15px 50px;
+            color: var(--black);
+            background-color: var(--secondary-yellow);
+            border-radius: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar-container">
+        <div class="logo">
+            <a href="#home"><img src="assets/logo-getwork.png" alt="company logo"></a>
+        </div>
+        <button class="hamburger-btn">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        <nav class="navbar-list">
+            <ul>
+                <li><a href="../login" class="navbar-link">Login</a></li>
+                <li><a href="../signup" class="navbar-link" id="sign-up">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+    <link rel="icon" href="assets/logo-getwork.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=M+PLUS+Rounded+1c:wght@300;500&family=Maven+Pro:wght@600&display=swap');
+        :root{
+            --primary-yellow: #F2E85C;
+            --secondary-yellow: #E7F294;
+            --primary-mustard: #F2C777; 
+            --gray-1:#F2F2F2;
+            --gray-2:#595959;
+            --black:#0D0D0D;
+            --font: "Roboto", sans-serif;
+            --heading-1-size: 2.5rem;
+            --heading-2-size: 2rem; 
+            --heading-3-size: 1.5rem;
+            --heading-4-size: 1.125rem;
+            --paragraph-size: 1rem;   
+            --small-text-size: 0.875rem;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-yellow);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 2.5%;
+        }
+
+        .registration {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: auto;
+            max-width: 600px;
+            width: 90%;
+        }
+        .back-button{
+            font-size: 15px;
+        }
+
+        .registration .title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .registration .description {
+            font-size: 20px;
+            line-height: 1.5;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .registration .form-group {
+            margin-bottom: 32px;
+            position: relative;
+            text-align: left;
+        }
+
+        .registration .form-group label {
+            font-size: 18px;
+            color: #333;
+            text-align: left;
+        }
+
+        .label-container {
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .registration input[type="email"],
+        .registration input[type="datos"],
+        .registration input[type="password"], 
+        .registration input[type="confirmPassword"] {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .error-message {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            color: red;
+            display: none;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .registration .btn-register {
+            background-color: #190933;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 4px;
+            padding: 15px 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .registration .btn-register:hover {
+            background-color: #111;
+            transform: scale(1.1);
+        }
+
+        @media screen and (max-width: 768px) {
+            .registration {
+                padding: 30px;
+            }
+
+            .registration .title {
+                font-size: 28px;
+            }
+
+            .registration .description {
+                font-size: 18px;
+            }
+
+            .registration input[type="email"],
+            .registration input[type="datos"],
+            .registration input[type="password"],
+            .registration input[type="confirmPassword"] {
+                font-size: 14px;
+            }
+
+            .registration .btn-register {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>   
+    <div class="contenedor-active" id="contenedor">       
+        <div id="background"></div>
+        <div class="container">
+            <form method="POST" class="registration">
+                {% csrf_token %}
+                <a href="../urban_home" class="back-button">← Return</a>
+                <br><br>
+                <h2 class="title">Register new user</h2>
+                <p class="description">Enter your information.</p>
+                <div class="form-group">
+                    <div class="label-container">
+                        <label for="id_first_name">First Name:</label>
+                    </div>
+                    {{ form.first_name }}
+                </div>
+                <div class="form-group">
+                    <div class="label-container">
+                        <label for="id_last_name">Last Name:</label>
+                    </div>
+                    {{ form.last_name }}
+                </div>
+                <div class="form-group">
+                    <div class="label-container">
+                        <label for="id_email">Correo electrónico:</label>
+                    </div>
+                    {{ form.email }}
+                    {{ form.email.errors }} <!-- Aquí se mostrarán los errores si hay alguno -->
+                </div>
+                <div class="form-group">
+                    <div class="label-container">
+                        <label for="id_password">Contraseña:</label>
+                    </div>
+                    {{ form.password }}
+                </div>      
+                <div class="form-group">
+                    <div class="label-container">
+                        <label for="id_confirm_password">Confirmar contraseña:</label>
+                    </div>
+                    {{ form.confirm_password }}
+                    {{ form.confirm_password.errors }} <!-- Aquí se mostrarán los errores si hay alguno -->
+                    <br><br>
+                    <p class="register-link">Do you already have an account?<a href="../login">Log in here</a>.</p>  
+                </div>        
+                <button type="submit" class="btn-register">Registrarse</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
