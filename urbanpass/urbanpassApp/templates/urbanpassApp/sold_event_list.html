@@ -18,7 +18,7 @@
         {% for sold_event in sold_event_list %}
             <tr>
                 <td>{{sold_event.id_entrada.id_entrada}}</td>
-                <td>{{sold_event.id_cliente.nombre}}</td>
+                <td>{{sold_event.id_cliente.id_usuario.nombre}}</td>
                 <td>{{sold_event.id_entrada.id_evento.nombre}}</td>
                 <td>{{sold_event.id_entrada.id_evento.fecha}}</td>
                 <td>{{sold_event.id_entrada.id_evento.hora}}</td>
