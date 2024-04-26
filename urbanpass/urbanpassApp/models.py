@@ -1,13 +1,16 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-# Create your models here.
 
 class Cliente(models.Model):
-    id_cliente = models.AutoField(db_column='ID_Cliente', primary_key=True)  # Field name made lowercase.
-    nombre = models.CharField(db_column='Nombre', max_length=20)  # Field name made lowercase.
-    apellido = models.CharField(db_column='Apellido', max_length=20)  # Field name made lowercase.
-    email = models.CharField(db_column='Email', max_length=30)  # Field name made lowercase.
-    telefono = models.IntegerField(db_column='Telefono')  # Field name made lowercase.
+    id_cliente = models.IntegerField(db_column='ID_Cliente', primary_key=True)  # Field name made lowercase.
+    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='ID_Usuario')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -15,11 +18,8 @@ class Cliente(models.Model):
 
 
 class Colaborador(models.Model):
-    id_colabor = models.IntegerField(db_column='ID_Colabor', primary_key=True)  # Field name made lowercase.
-    nombre = models.CharField(db_column='Nombre', max_length=20)  # Field name made lowercase.
-    apellido = models.CharField(db_column='Apellido', max_length=20)  # Field name made lowercase.
-    email = models.CharField(db_column='Email', max_length=30)  # Field name made lowercase.
-    telefono = models.IntegerField(db_column='Telefono')  # Field name made lowercase.
+    id_colaborador = models.IntegerField(db_column='ID_Colaborador', primary_key=True)  # Field name made lowercase.
+    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='ID_Usuario')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -30,7 +30,7 @@ class Entrada(models.Model):
     id_entrada = models.IntegerField(db_column='ID_Entrada', primary_key=True)  # Field name made lowercase.
     estado = models.CharField(db_column='Estado', max_length=10)  # Field name made lowercase.
     id_evento = models.ForeignKey('Evento', models.DO_NOTHING, db_column='ID_Evento')  # Field name made lowercase.
-    tipo_entrada_id_tipo_entrada = models.ForeignKey('TipoEntrada', models.DO_NOTHING, db_column='Tipo_Entrada_ID_Tipo_Entrada')  # Field name made lowercase.
+    id_tipo_entrada = models.ForeignKey('TipoEntrada', models.DO_NOTHING, db_column='ID_Tipo_Entrada')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -38,9 +38,9 @@ class Entrada(models.Model):
 
 
 class EntradaXClientes(models.Model):
-    id_entrada = models.ForeignKey(Entrada, models.DO_NOTHING, db_column='ID_Entrada', primary_key=True)  # Field name made lowercase.
+    id_entrada = models.OneToOneField(Entrada, models.DO_NOTHING, db_column='ID_Entrada', primary_key=True)  # Field name made lowercase. The composite primary key (ID_Entrada, ID_Cliente) found, that is not supported. The first column is selected.
     id_cliente = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='ID_Cliente')  # Field name made lowercase.
-    
+
     class Meta:
         managed = False
         db_table = 'Entrada_X_Clientes'
@@ -54,7 +54,7 @@ class Evento(models.Model):
     hora = models.TimeField(db_column='Hora')  # Field name made lowercase.
     descripcion = models.CharField(db_column='Descripcion', max_length=500)  # Field name made lowercase.
     id_promotor = models.ForeignKey('Promotor', models.DO_NOTHING, db_column='ID_Promotor')  # Field name made lowercase.
-    id_colaborades = models.ForeignKey(Colaborador, models.DO_NOTHING, db_column='ID_Colaborades')  # Field name made lowercase.
+    id_colaborador = models.ForeignKey(Colaborador, models.DO_NOTHING, db_column='ID_Colaborador')  # Field name made lowercase.
     id_patrocinador = models.ForeignKey('Patrocinador', models.DO_NOTHING, db_column='ID_Patrocinador')  # Field name made lowercase.
     id_lugar_evento = models.ForeignKey('LugarEvento', models.DO_NOTHING, db_column='ID_Lugar_Evento')  # Field name made lowercase.
 
@@ -85,12 +85,10 @@ class Patrocinador(models.Model):
         managed = False
         db_table = 'Patrocinador'
 
+
 class Promotor(models.Model):
     id_promotor = models.IntegerField(db_column='ID_Promotor', primary_key=True)  # Field name made lowercase.
-    nombre = models.CharField(db_column='Nombre', max_length=20)  # Field name made lowercase.
-    apellido = models.CharField(db_column='Apellido', max_length=20)  # Field name made lowercase.
-    email = models.CharField(db_column='Email', max_length=30)  # Field name made lowercase.
-    telefono = models.IntegerField(db_column='Telefono')  # Field name made lowercase.
+    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='ID_Usuario')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -98,7 +96,7 @@ class Promotor(models.Model):
 
 
 class PromotorXEntrada(models.Model):
-    promotor_id_promotor = models.ForeignKey(Promotor, models.DO_NOTHING, db_column='Promotor_ID_Promotor', primary_key=True)  # Field name made lowercase.
+    promotor_id_promotor = models.OneToOneField(Promotor, models.DO_NOTHING, db_column='Promotor_ID_Promotor', primary_key=True)  # Field name made lowercase. The composite primary key (Promotor_ID_Promotor, Entrada_ID_Entrada) found, that is not supported. The first column is selected.
     entrada_id_entrada = models.ForeignKey(Entrada, models.DO_NOTHING, db_column='Entrada_ID_Entrada')  # Field name made lowercase.
     ganancia_promotor = models.FloatField(db_column='Ganancia_Promotor')  # Field name made lowercase.
 
@@ -106,6 +104,15 @@ class PromotorXEntrada(models.Model):
         managed = False
         db_table = 'Promotor_X_Entrada'
         unique_together = (('promotor_id_promotor', 'entrada_id_entrada'),)
+
+
+class Rol(models.Model):
+    id_rol = models.IntegerField(db_column='ID_Rol', primary_key=True)  # Field name made lowercase.
+    rol = models.CharField(db_column='Rol', max_length=15)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Rol'
 
 
 class TipoEntrada(models.Model):
@@ -118,8 +125,22 @@ class TipoEntrada(models.Model):
         db_table = 'Tipo_Entrada'
 
 
+class Usuario(models.Model):
+    id_usuario = models.IntegerField(db_column='ID_Usuario', primary_key=True)  # Field name made lowercase.
+    nombre = models.CharField(db_column='Nombre', max_length=20)  # Field name made lowercase.
+    apellido = models.CharField(db_column='Apellido', max_length=20)  # Field name made lowercase.
+    email = models.CharField(db_column='Email', max_length=30)  # Field name made lowercase.
+    telefono = models.CharField(db_column='Telefono', max_length=9)  # Field name made lowercase.
+    contrasena = models.CharField(db_column='Contrasena', max_length=30)  # Field name made lowercase.
+    id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='ID_Rol')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Usuario'
+
+
 class Valoracion(models.Model):
-    id_cliente = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='ID_Cliente', primary_key=True)  # Field name made lowercase.
+    id_cliente = models.OneToOneField(Cliente, models.DO_NOTHING, db_column='ID_Cliente', primary_key=True)  # Field name made lowercase. The composite primary key (ID_Cliente, ID_Evento) found, that is not supported. The first column is selected.
     id_evento = models.ForeignKey(Evento, models.DO_NOTHING, db_column='ID_Evento')  # Field name made lowercase.
     valoracion = models.IntegerField(db_column='Valoracion')  # Field name made lowercase.
     comentario = models.CharField(db_column='Comentario', max_length=300)  # Field name made lowercase.
@@ -128,6 +149,7 @@ class Valoracion(models.Model):
         managed = False
         db_table = 'Valoracion'
         unique_together = (('id_cliente', 'id_evento'),)
+
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -173,7 +195,8 @@ class AuthUser(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_user'
-        
+
+
 class AuthUserGroups(models.Model):
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
@@ -216,7 +239,8 @@ class DjangoContentType(models.Model):
         managed = False
         db_table = 'django_content_type'
         unique_together = (('app_label', 'model'),)
-        
+
+
 class DjangoMigrations(models.Model):
     app = models.CharField(max_length=255)
     name = models.CharField(max_length=255)

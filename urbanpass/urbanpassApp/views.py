@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Count, Avg
-from .models import Cliente, EntradaXClientes, Entrada, Colaborador, Evento, LugarEvento, Valoracion, TipoEntrada, Promotor
+from . import models
 from django.http import HttpResponse
 
 # Create your views here.
@@ -9,11 +9,11 @@ def urbanpass(request):
     return HttpResponse("Welcome to UrbanPass")
 
 def customer_list(request):
-    context = {'customer_list': Cliente.objects.all()}
+    context = {'customer_list': Usuario.objects.all()}
     return render (request, "urbanpassApp/customer_list.html", context)
 
 def collaborator_list(request):
-    context = {'collaborator_list': Colaborador.objects.all()}
+    context = {'collaborator_list': Usuario.objects.all()}
     return render (request, "urbanpassApp/collaborator_list.html", context)
 
 def sold_event_list(request):
