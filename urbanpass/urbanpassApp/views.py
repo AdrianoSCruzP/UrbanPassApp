@@ -1,15 +1,39 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Count, Avg
+from django.contrib.auth.hashers import make_password
 from .models import Usuario, Evento, EntradaXClientes, Valoracion, LugarEvento, Promotor
 from django.http import HttpResponse
-from .sign_up_form import RegistrationForm
+from .forms import UserRegisterForm
+
 # Create your views here.
 
 def urbanpass(request):
     return render (request, "urbanpassApp/index.html")
 
 def signup(request):
-    return render (request, "urbanpassApp/signup.html")
+    error_message = None
+    
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            if Usuario.objects.filter(nombre=username).exists() or Usuario.objects.filter(email=email).exists():
+                error_message = 'El usuario ya está registrado.'
+            else:
+                # Guardar la contraseña encriptada en el modelo Usuario
+                user = form.save(commit=False)
+                user.contrasena = make_password(form.cleaned_data.get('contrasena'))
+                last_id = Usuario.objects.latest('id_usuario').id_usuario
+                new_id = last_id + 1
+                user.id_usuario = new_id
+                print(user)
+                user.save()
+                return redirect('../login/')
+    else:
+        form = UserRegisterForm()
+        
+    return render(request, 'urbanpassApp/signup.html', {'form': form, 'error_message': error_message})
 
 def customer_list(request):
     context = {'customer_list': Usuario.objects.filter(id_rol=1).all}
@@ -46,17 +70,6 @@ def rate_event_list(request):
 def collaborator_event_list(request):
     context = {'collaborator_event_list': Evento.objects.select_related('id_colaborador')}
     return render (request, "urbanpassApp/collaborator_event_list.html", context)
-
-def register_view(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            # Procesar los datos del formulario aquí
-            # Por ejemplo, guardar el nuevo usuario en la base de datos
-            return redirect('ruta_a_la_página_de_inicio')  # Reemplaza 'ruta_a_la_página_de_inicio' con la ruta adecuada
-    else:
-        form = RegistrationForm()
-    return render(request, 'tu_template.html', {'form': form})
 
 def login_view(request):
     return render(request, 'urbanpassApp/login.html')  # Asegúrate de tener la plantilla HTML adecuada

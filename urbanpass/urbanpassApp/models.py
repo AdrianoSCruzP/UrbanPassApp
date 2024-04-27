@@ -131,7 +131,7 @@ class Usuario(models.Model):
     apellido = models.CharField(db_column='Apellido', max_length=20)  # Field name made lowercase.
     email = models.CharField(db_column='Email', max_length=30)  # Field name made lowercase.
     telefono = models.CharField(db_column='Telefono', max_length=9)  # Field name made lowercase.
-    contrasena = models.CharField(db_column='Contrasena', max_length=30)  # Field name made lowercase.
+    contrasena = models.CharField(db_column='Contrasena', max_length=200)  # Field name made lowercase.
     id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='ID_Rol')  # Field name made lowercase.
 
     class Meta:

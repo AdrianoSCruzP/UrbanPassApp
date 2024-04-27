@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrarse</title>
-    <link rel="icon" href="assets/logo-getwork.jpeg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=M+PLUS+Rounded+1c:wght@300;500&family=Maven+Pro:wght@600&display=swap');
         :root{
@@ -89,10 +87,7 @@
             margin-bottom: 5px;
         }
 
-        .registration input[type="email"],
-        .registration input[type="datos"],
-        .registration input[type="password"], 
-        .registration input[type="confirmPassword"] {
+        .form-control {
             width: 100%;
             padding: 16px;
             border: 1px solid #ccc;
@@ -157,48 +152,56 @@
     <div class="contenedor-active" id="contenedor">       
         <div id="background"></div>
         <div class="container">
-            <form method="POST" class="registration">
-                {% csrf_token %}
-                <a href="../urban_home" class="back-button">← Return</a>
-                <br><br>
-                <h2 class="title">Register new user</h2>
-                <p class="description">Enter your information.</p>
-                <div class="form-group">
-                    <div class="label-container">
-                        <label for="id_first_name">First Name:</label>
-                    </div>
-                    {{ form.first_name }}
-                </div>
-                <div class="form-group">
-                    <div class="label-container">
-                        <label for="id_last_name">Last Name:</label>
-                    </div>
-                    {{ form.last_name }}
-                </div>
-                <div class="form-group">
-                    <div class="label-container">
-                        <label for="id_email">Correo electrónico:</label>
-                    </div>
-                    {{ form.email }}
-                    {{ form.email.errors }} <!-- Aquí se mostrarán los errores si hay alguno -->
-                </div>
-                <div class="form-group">
-                    <div class="label-container">
-                        <label for="id_password">Contraseña:</label>
-                    </div>
-                    {{ form.password }}
-                </div>      
-                <div class="form-group">
-                    <div class="label-container">
-                        <label for="id_confirm_password">Confirmar contraseña:</label>
-                    </div>
-                    {{ form.confirm_password }}
-                    {{ form.confirm_password.errors }} <!-- Aquí se mostrarán los errores si hay alguno -->
+            <div class="registration">
+                <form action = "/signup/" method="POST">
+                    {% csrf_token %}
+                    <a href="/urban_home" class="back-button">← Volver</a>
                     <br><br>
-                    <p class="register-link">Do you already have an account?<a href="../login">Log in here</a>.</p>  
-                </div>        
-                <button type="submit" class="btn-register">Registrarse</button>
-            </form>
+                    <h2 class="title">Registrar nuevo usuario</h2>
+                    <p class="description">Ingresa tus datos.</p>
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="datos">First Name:</label>
+                        </div>
+                        {{form.nombre}}
+                    </div>
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="datos">Last Name:</label>
+                        </div>
+                        {{form.apellido}}
+                    </div>
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="email">Correo electrónico:</label>
+                        </div>
+                        {{form.email}}
+                    </div>
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="telefono">Telefono:</label>
+                        </div>
+                        {{form.telefono}}
+                    </div>
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="password">Contraseña:</label>
+                        </div>
+                        <div class="password-container">
+                            {{form.contrasena}}
+                        </div>
+                    </div>      
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="confirmPassword">Id Rol:</label>
+                            {{form.id_rol}}
+                        </div>
+                        <br><br>
+                        <p class="register-link">¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a>.</p>  
+                    </div>        
+                    <button class="btn-register">Registrarse</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>
