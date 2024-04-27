@@ -6,7 +6,7 @@ def test_view(request):
     return HttpResponse("Testing URL configuration")
 
 urlpatterns = [
-    path('login/', views.login_view, name='login'),
+    path('login/', views.signin, name='login'),
     path('test/', test_view, name='test'),
     path('urban_home/', views.urbanpass, name = 'urban_home'),
     path('customer_list/', views.customer_list, name='customer_list'),
@@ -19,6 +19,7 @@ urlpatterns = [
     path('promoter_event_list/', views.promoter_event_list, name='promoter_event_list'),
     path('rate_event_list/', views.rate_event_list, name='rate_event_list'),
     path('collaborator_event_list/', views.collaborator_event_list, name='collaborator_event_list'),
+    path('logout/', views.signout, name='logout'),
     path('event_list/', views.event_list, name='event_list'),
     path('client_ticket/', views.client_ticket, name='client_ticket'),
 ]

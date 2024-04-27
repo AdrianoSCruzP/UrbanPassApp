@@ -134,6 +134,7 @@ class Usuario(models.Model):
     contrasena = models.CharField(db_column='Contrasena', max_length=200)  # Field name made lowercase.
     id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='ID_Rol')  # Field name made lowercase.
 
+    last_login = models.DateTimeField(blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'Usuario'

@@ -49,7 +49,6 @@
             padding: 50px;
             border-radius: 8px;
             text-align: center;
-            margin-top: auto;
             max-width: 600px;
             width: 90%;
         }
@@ -156,9 +155,13 @@
                 <form action = "/signup/" method="POST">
                     {% csrf_token %}
                     <a href="/urban_home" class="back-button">← Volver</a>
-                    <br><br>
                     <h2 class="title">Registrar nuevo usuario</h2>
                     <p class="description">Ingresa tus datos.</p>
+                    <br>
+                    <div style="font-size: 20px; color: red;">
+                        {{error_message}}
+                    </div>
+                    <br>
                     <div class="form-group">
                         <div class="label-container">
                             <label for="datos">First Name:</label>

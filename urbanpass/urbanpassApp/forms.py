@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from .models import Usuario, Rol
 
 ID_ROL_CHOICES = (
@@ -36,3 +36,7 @@ class UserRegisterForm(forms.ModelForm):
         if id_rol:
             return Rol.objects.get(pk=id_rol)
         return None
+    
+class LoginForm(forms.Form):
+    email = forms.CharField(label='Email', max_length=30, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    contrasena = forms.CharField(label='Contraseña', widget=forms.PasswordInput(attrs={'class': 'form-control'}))

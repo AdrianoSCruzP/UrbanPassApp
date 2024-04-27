@@ -3,74 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=M+PLUS+Rounded+1c:wght@300;500&family=Maven+Pro:wght@600&display=swap');
+        :root{
+            --primary-yellow: #F2E85C;
+            --secondary-yellow: #E7F294;
+            --primary-mustard: #F2C777; 
+            --gray-1:#F2F2F2;
+            --gray-2:#595959;
+            --black:#0D0D0D;
+            --font: "Roboto", sans-serif;
+            --heading-1-size: 2.5rem;
+            --heading-2-size: 2rem; 
+            --heading-3-size: 1.5rem;
+            --heading-4-size: 1.125rem;
+            --paragraph-size: 1rem;   
+            --small-text-size: 0.875rem;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-yellow);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 2.5%;
+        }
+
+        .login {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            border-radius: 8px;
+            text-align: center;;
+            max-width: 600px;
+            width: 90%;
+        }
+        .back-button{
+            font-size: 15px;
+        }
+
+        .login .title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .login .description {
+            font-size: 20px;
+            line-height: 1.5;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .login .form-group {
+            margin-bottom: 32px;
+            position: relative;
+            text-align: left;
+        }
+
+        .login .form-group label {
+            font-size: 18px;
+            color: #333;
+            text-align: left;
+        }
+
+        .label-container {
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .error-message {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            color: red;
+            display: none;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .login .btn-register {
+            background-color: #190933;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 4px;
+            padding: 15px 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .login .btn-register:hover {
+            background-color: #111;
+            transform: scale(1.1);
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container">
-        <form action="">
-            <h2>Ingrese a su cuenta</h2>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email">
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password">
-            <input type="submit" value="Ingresar">
-            <p>Todavía no estás registrado? <a href="/signup">Crea una cuenta</a></p>
-        </form>
+    <div class="contenedor-active" id="contenedor">       
+        <div id="background"></div>
+        <div class="container">
+            <div class="login">
+                <form  method="POST">
+                    {% csrf_token %}
+                    <a href="/urban_home" class="back-button">← Volver</a>
+                    <h2 class="title">Iniciar Sesion</h2>
+                    <p class="description">Ingresa tus datos.</p>
+                    <br>
+                    <div style="font-size: 20px; color: red;">
+                        {{error_message}}
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="datos">Email:</label>
+                        </div>
+                            {{form.email}}
+                    </div>
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="datos">Contrasena:</label>
+                        </div>
+                            {{form.contrasena}}
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <p class="register-link">¿No tienes cuenta? <a href="/signup">Registrate Aqui</a>.</p>  
+                    </div>        
+                    <button class="btn-register">Registrarse</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
-<style>
-
-@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=M+PLUS+Rounded+1c:wght@300;500&family=Maven+Pro:wght@600&display=swap');
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #F2E85C;
-}
-
-.container {
-    max-width: 400px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    margin-top: 10px;
-}
-
-input {
-    padding: 10px;
-    margin: 5px 0 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-input[type="submit"] {
-    background-color: #1C0C34;
-    color: white;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #878D95;
-}
-
-</style>
 </html>
 
