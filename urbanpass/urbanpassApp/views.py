@@ -94,10 +94,11 @@ def signin(request):
                 else:
                     error_message = 'La contraseña es incorrecta.'
             except Usuario.DoesNotExist:
-                error_message = 'El usuario no existe.'
+                error_message = 'El correo no existe.'
     else:
         form = LoginForm()
     return render(request, 'urbanpassApp/login.html', {'form': form, 'error_message': error_message })
+
 def event_list(request):
     context = {'event_list': Evento.objects.all()}
     return render(request, 'urbanpassApp/event_list.html', context)
