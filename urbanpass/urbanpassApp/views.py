@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from .models import Usuario, Evento, EntradaXClientes, Valoracion, LugarEvento, Promotor
 from django.http import HttpResponse
 from .forms import UserRegisterForm
-
+from .models import Evento
 # Create your views here.
 
 def urbanpass(request):
@@ -74,3 +74,9 @@ def collaborator_event_list(request):
 def login_view(request):
     return render(request, 'urbanpassApp/login.html')  # Asegúrate de tener la plantilla HTML adecuada
 
+def event_list(request):
+    # Fetch all events from the database. Assuming 'Evento' model has been appropriately defined in your models.py.
+    events = Evento.objects.all()  # Adjust this query based on your model and fields
+    # Render the 'event_list.html' page with the events data
+    context = {'event_list': events}
+    return render(request, 'urbanpassApp/event_list.html', context)

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>UrbanPass</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <style>
         :root{
             --primary-yellow: #F2E85C;
@@ -72,13 +75,13 @@
         }
         
         header .logo img{
-            height: 80px;
+            height: 70px;
             width: auto;
             transition: all 0.3s;
         }
         
         header .logo img:hover{
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
         
         header .navbar-list{
@@ -96,7 +99,7 @@
         
         header .navbar-list a{
             font-size: 700;
-            color: #eceff1;
+            color: #0D0D0D;
             text-decoration: none;    
         }
         
@@ -111,15 +114,13 @@
             border-radius: 50px;
         }
     </style>
+   
 </head>
 <body>
     <header class="navbar-container">
         <div class="logo">
-            <a href="#home"><img src="assets/logo-getwork.png" alt="company logo"></a>
+            <a href="#home"><img src="https://github.com/AdrianoSCruzP/UrbanPassApp/assets/130580982/77d99528-281c-4e2d-8cba-ab3a5e9097fa" alt="company logo"></a>
         </div>
-        <button class="hamburger-btn">
-            <i class="fa-solid fa-bars"></i>
-          </button>
         <nav class="navbar-list">
             <ul>
                 <li><a href="../login" class="navbar-link">Login</a></li>
@@ -127,5 +128,7 @@
             </ul>
         </nav>
     </header>
+    {% block content %}
+    {% endblock content %}
 </body>
 </html>

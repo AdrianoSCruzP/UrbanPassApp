@@ -1,34 +1,35 @@
-{%extends 'urbanpassApp/main.html'%}
-{%block content%}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Eventos</h1>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Fecha</th>
-                        <th>Capacidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for event in event_list %}
-                    <tr>
-                        <td>{{event.nombre}}</td>
-                        <td>{{event.fecha}}</td>
-                        <td>{{event.capacidad}}</td>
-                        <td>
-                            <a href="{% url 'urbanpassApp:event_detail' event.id_evento %}" class="btn btn-primary">Ver</a>
-                            <a href="{% url 'urbanpassApp:event_update' event.id_evento %}" class="btn btn-warning">Editar</a>
-                            <a href="{% url 'urbanpassApp:event_delete' event.id_evento %}" class="btn btn-danger">Eliminar</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+{% extends 'urbanpassApp/index.html' %}
+
+{% block content %}
+    <div style="padding-top: 90px;" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Eventos</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Fecha</th>
+                            <th>Capacidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in event_list %}
+                        <tr>
+                            <td>{{ event.nombre }}</td>
+                            <td>{{ event.fecha }}</td>
+                            <td>{{ event.capacidad }}</td>
+                            <td>
+                                <a class="btn btn-primary">Ver</a>
+                                <a class="btn btn-warning">Editar</a>
+                                <a class="btn btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-{%endblock%}
+{% endblock %}

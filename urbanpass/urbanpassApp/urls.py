@@ -19,4 +19,5 @@ urlpatterns = [
     path('promoter_event_list/', views.promoter_event_list, name='promoter_event_list'),
     path('rate_event_list/', views.rate_event_list, name='rate_event_list'),
     path('collaborator_event_list/', views.collaborator_event_list, name='collaborator_event_list'),
+    path('event_list/', views.event_list, name='event_list'),
 ]
