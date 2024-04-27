@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.db.models import Count, Avg
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import login, logout
 from .models import Usuario, Evento, EntradaXClientes, Valoracion, LugarEvento, Promotor
 from django.http import HttpResponse
 from .forms import UserRegisterForm
-from .models import Evento
+from .models import Evento,EntradaXClientes,Entrada
 from .forms import UserRegisterForm, LoginForm
+from django.http import JsonResponse
 import re
 # Create your views here.
 
@@ -106,4 +107,15 @@ def event_list(request):
 def client_ticket(request):
     context = {'client_ticket': EntradaXClientes.objects.filter(id_cliente='4').select_related('id_cliente', 'id_entrada')}
     return render(request, 'urbanpassApp/client_ticket.html', context)
+
+def reservar_entrada(request, entrada_id):
+    # Obtiene la entrada de la base de datos
+    entrada = get_object_or_404(Entrada, id_entrada=entrada_id)
+
+    # Actualiza el estado de la entrada
+    entrada.estado = 'Reservada'
+    entrada.save()
+
+    # Devuelve una respuesta JSON para indicar que la actualización fue exitosa
+    return JsonResponse({'message': 'Estado actualizado a Reservada'})
 

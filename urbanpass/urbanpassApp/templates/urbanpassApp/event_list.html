@@ -12,6 +12,7 @@
                             <th>Fecha</th>
                             <th>Capacidad</th>
                             <th>Acciones</th>
+                            <th>ID</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -21,14 +22,33 @@
                             <td>{{ event.fecha }}</td>
                             <td>{{ event.id_lugar_evento.capacidad }}</td>
                             <td>
-                                <a class="btn btn-warning">Editar</a>
-                                <a class="btn btn-danger">Eliminar</a>
+                                <a data-entrada-id="{{ event.id_evento }}" class="btn btn-warning btn-reservar">Reservar</a>
+                                <a class="btn btn-danger">Pagar</a>
                             </td>
+                            <td>{{event.id_evento}}</td>
                         </tr>
+
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.btn-reservar').click(function() {
+            // Obtiene el ID de la entrada desde el atributo de datos
+            var entradaId = $(this).data('entrada-id');
+            // Realiza una petición AJAX para actualizar el estado
+            $.get('/reservar_entrada/' + entradaId + '/', function(data) {
+                // Maneja la respuesta
+                alert(data.message);  // Muestra un mensaje en la página
+                // Podrías también actualizar visualmente el estado en la tabla si lo deseas
+            });
+        });
+    });
+</script>
+    
 {% endblock %}
