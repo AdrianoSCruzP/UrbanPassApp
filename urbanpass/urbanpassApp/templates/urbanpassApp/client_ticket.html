@@ -1,0 +1,38 @@
+{% extends 'urbanpassApp/index.html' %}
+
+{% block content %}
+    <div style="padding-top: 90px;" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Eventos</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID Entrada</th>
+                            <th>ID Evento</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client_tk in client_ticket %}
+                        <tr>
+                            <td>{{ client_tk.id_entrada.id_entrada }}</td>
+                            <td>{{ client_tk.id_entrada.id_evento.id_evento }}</td>
+                            <td>{{ client_tk.id_entrada.id_evento.nombre }}</td>
+                            <td>{{ client_tk.id_entrada.estado }}</td>
+                            <td>
+                                {% if client_tk.id_entrada.estado == 'Reservada'%}
+                                <a class="btn btn-primary">Pagar entrada</a>
+                                <a class="btn btn-danger">Eliminar reserva</a>
+                                {% endif%}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

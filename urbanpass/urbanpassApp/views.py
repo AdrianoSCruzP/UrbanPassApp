@@ -72,11 +72,12 @@ def collaborator_event_list(request):
     return render (request, "urbanpassApp/collaborator_event_list.html", context)
 
 def login_view(request):
-    return render(request, 'urbanpassApp/login.html')  # Asegúrate de tener la plantilla HTML adecuada
+    return render(request, 'urbanpassApp/login.html')
 
 def event_list(request):
-    # Fetch all events from the database. Assuming 'Evento' model has been appropriately defined in your models.py.
-    events = Evento.objects.all()  # Adjust this query based on your model and fields
-    # Render the 'event_list.html' page with the events data
-    context = {'event_list': events}
+    context = {'event_list': Evento.objects.all()}
     return render(request, 'urbanpassApp/event_list.html', context)
+
+def client_ticket(request):
+    context = {'client_ticket': EntradaXClientes.objects.filter(id_cliente='4').select_related('id_cliente', 'id_entrada')}
+    return render(request, 'urbanpassApp/client_ticket.html', context)
