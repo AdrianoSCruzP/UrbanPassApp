@@ -1,10 +1,43 @@
 {% extends 'urbanpassApp/index.html' %}
 
 {% block content %}
+<style>
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+    }
+
+    .cerrar-btn {
+        background-color: #f44336;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .cerrar-btn:hover {
+        background-color: #d32f2f;
+    }
+</style>
     <div style="padding-top: 90px;" class="container">
         <div class="row">
             <div class="col-md-12">
                 <h1>Eventos</h1>
+                <br>
+                <div id="popup" class="popup">
+                    <p id="mensaje"></p>
+                    <button class="cerrar-btn" onclick="cerrarPopup()">Cerrar</button>
+                </div>                <br>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -23,8 +56,8 @@
                             <td>{{ event.fecha }}</td>
                             <td>{{ event.id_lugar_evento.capacidad }}</td>
                             <td>
-                                <a href="../reservar_entrada/{{ event.id_evento }}/" class="btn btn-warning btn-reservar">Reservar</a>
-                                <a class="btn btn-danger">Pagar</a>
+                                <a href="../reserve_ticket/{{ event.id_evento }}/" class="btn btn-warning btn-reservar">Reservar</a>
+                                <a href="../pay_entry/{{ event.id_evento }}/" class="btn btn-danger">Pagar</a>
                             </td>
                         </tr>
 
@@ -34,4 +67,18 @@
             </div>
         </div>
     </div>
+    <script>
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        const mensaje = getQueryParam('message');
+        if (mensaje) {
+            document.getElementById('mensaje').innerText = decodeURIComponent(mensaje);
+            document.getElementById('popup').style.display = 'block';
+        }
+        function cerrarPopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
 {% endblock %}

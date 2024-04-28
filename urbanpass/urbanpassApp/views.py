@@ -13,6 +13,27 @@ import re
 from django.contrib.sessions.models import Session
 # Create your views here.
 
+def get_user_from_session_cookie(request):
+    session_key = request.COOKIES.get('sessionid')
+
+    if session_key:
+        try:
+            session = Session.objects.get(session_key=session_key)
+        except Session.DoesNotExist:
+            return None
+
+        session_data = session.get_decoded()
+
+        user_id = session_data.get('_auth_user_id')
+
+        if user_id:
+            try:
+                user = Usuario.objects.get(pk=user_id)
+                return user
+            except Usuario.DoesNotExist:
+                return None
+    return None
+
 def urbanpass(request):
     return render (request, "urbanpassApp/index.html")
 
@@ -35,8 +56,9 @@ def signup(request):
                 last_id = Usuario.objects.latest('id_usuario').id_usuario
                 new_id = last_id + 1
                 user.id_usuario = new_id
-                user.save()
-                login(request, user)
+                user.save()                
+                usuario = Usuario.objects.get(id_usuario = new_id)
+                login(request, Usuario)
                 return redirect('../urban_home/')
     else:
         form = UserRegisterForm()
@@ -111,50 +133,68 @@ def client_ticket(request):
     context = {'client_ticket': EntradaXClientes.objects.filter(id_cliente= usuario.id_usuario).select_related('id_cliente', 'id_entrada')}
     return render(request, 'urbanpassApp/client_ticket.html', context)
 
-def get_user_from_session_cookie(request):
-    session_key = request.COOKIES.get('sessionid')
 
-    if session_key:
-        try:
-            session = Session.objects.get(session_key=session_key)
-        except Session.DoesNotExist:
-            return None
-
-        session_data = session.get_decoded()
-
-        user_id = session_data.get('_auth_user_id')
-
-        if user_id:
-            try:
-                user = Usuario.objects.get(pk=user_id)
-                return user
-            except Usuario.DoesNotExist:
-                return None
-    return None
-
-def reservar_entrada(request, id_evento):
+def reserve_ticket(request, id_evento):
     usuario = get_user_from_session_cookie(request)
     if usuario:
         cliente_id = usuario.id_usuario
         
         cliente = get_object_or_404(Cliente, id_cliente=cliente_id)
 
-        ultima_entrada = Entrada.objects.latest('id_entrada')
-        ultimo_id_entrada = ultima_entrada.id_entrada if ultima_entrada else 0
-        
-        nuevo_id_entrada = ultimo_id_entrada + 1
-        tipo_entrada = TipoEntrada.objects.get(id_tipo_entrada=1)
+        # Buscar una entrada disponible para el evento especificado
+        entrada_disponible = Entrada.objects.filter(estado='Disponible', id_evento=id_evento).first()
 
-        nueva_entrada = Entrada.objects.create(id_entrada=nuevo_id_entrada, estado='Reservada', id_evento_id=id_evento, id_tipo_entrada= tipo_entrada)
-        nueva_entradaxcliente = EntradaXClientes.objects.create(id_entrada=nueva_entrada, id_cliente=cliente)
+        if entrada_disponible:
+            nueva_entradaxcliente = EntradaXClientes.objects.create(id_entrada=entrada_disponible, id_cliente=cliente)
+            entrada_disponible.estado = 'Reservada'
+            entrada_disponible.save()
+            message = 'Entrada reservada exitosamente'
+            return redirect('/event_list/?message=' + message)
+        else:
+            # Si no hay entradas disponibles para el evento, crear una nueva
+            ultima_entrada = Entrada.objects.latest('id_entrada')
+            ultimo_id_entrada = ultima_entrada.id_entrada if ultima_entrada else 0
+            nuevo_id_entrada = ultimo_id_entrada + 1
+            tipo_entrada = TipoEntrada.objects.get(id_tipo_entrada=1)
+            nueva_entrada = Entrada.objects.create(id_entrada=nuevo_id_entrada, estado='Reservada', id_evento_id=id_evento, id_tipo_entrada=tipo_entrada)
+            nueva_entradaxcliente = EntradaXClientes.objects.create(id_entrada=nueva_entrada, id_cliente=cliente)
+            message = 'Entrada creada y reservada exitosamente'
+            return redirect('/event_list/?message=' + message)
 
-        entrada = get_object_or_404(Entrada, id_entrada=nuevo_id_entrada)
-        entrada.estado = 'Reservada'
-        entrada.save()
-
-        return JsonResponse({'message': 'Entrada creada y estado actualizado a Reservada'})
     else:
-        return JsonResponse({'error': 'No se ha iniciado sesión'})
+        message = 'No se ha iniciado sesión'
+        return redirect('/event_list/?message=' + message)
+
+def pay_entry(request, id_evento):
+    usuario = get_user_from_session_cookie(request)
+    if usuario:
+        cliente_id = usuario.id_usuario
+        
+        cliente = get_object_or_404(Cliente, id_cliente=cliente_id)
+
+        # Buscar una entrada disponible para el evento especificado
+        entrada_disponible = Entrada.objects.filter(estado='Disponible', id_evento=id_evento).first()
+
+        if entrada_disponible:
+            nueva_entradaxcliente = EntradaXClientes.objects.create(id_entrada=entrada_disponible, id_cliente=cliente)
+            entrada_disponible.estado = 'Vendida'
+            entrada_disponible.save()
+            message = 'Entrada Vendida Exitosamente'
+            return redirect('/event_list/?message=' + message)
+        else:
+            # Si no hay entradas disponibles para el evento, crear una nueva
+            ultima_entrada = Entrada.objects.latest('id_entrada')
+            ultimo_id_entrada = ultima_entrada.id_entrada if ultima_entrada else 0
+            nuevo_id_entrada = ultimo_id_entrada + 1
+            tipo_entrada = TipoEntrada.objects.get(id_tipo_entrada=1)
+            nueva_entrada = Entrada.objects.create(id_entrada=nuevo_id_entrada, estado='Vendida', id_evento_id=id_evento, id_tipo_entrada=tipo_entrada)
+            nueva_entradaxcliente = EntradaXClientes.objects.create(id_entrada=nueva_entrada, id_cliente=cliente)
+            message = 'Entrada Vendida Exitosamente'
+            return redirect('/event_list/?message=' + message)
+
+    else:
+        message = 'No se ha iniciado sesión'
+        return redirect('/event_list/?message=' + message)
 
 def pay_ticket(request, id_entrada):
     user = get_user_from_session_cookie(request)
