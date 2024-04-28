@@ -107,7 +107,8 @@ def event_list(request):
     return render(request, 'urbanpassApp/event_list.html', context)
 
 def client_ticket(request):
-    context = {'client_ticket': EntradaXClientes.objects.filter(id_cliente='4').select_related('id_cliente', 'id_entrada')}
+    usuario = get_user_from_session_cookie(request)
+    context = {'client_ticket': EntradaXClientes.objects.filter(id_cliente= usuario.id_usuario).select_related('id_cliente', 'id_entrada')}
     return render(request, 'urbanpassApp/client_ticket.html', context)
 
 def get_user_from_session_cookie(request):
@@ -154,3 +155,28 @@ def reservar_entrada(request, id_evento):
         return JsonResponse({'message': 'Entrada creada y estado actualizado a Reservada'})
     else:
         return JsonResponse({'error': 'No se ha iniciado sesión'})
+
+def pay_ticket(request, id_entrada):
+    user = get_user_from_session_cookie(request)
+    if user:
+        ticket = Entrada.objects.get(id_entrada = id_entrada)
+        ticket.estado = 'Vendida'
+        ticket.save()
+
+        return JsonResponse({'message': 'Entrada Vendida'})
+    else:
+        return JsonResponse({'error': 'No se pudo vender no tiene plata'})
+
+def delete_ticket(request, id_entrada):
+    user = get_user_from_session_cookie(request)
+    if user:
+        ticket = EntradaXClientes.objects.get(id_entrada = id_entrada)
+        ticket.delete()
+
+        ticket = Entrada.objects.get(id_entrada = id_entrada)
+        ticket.estado = 'Disponible'
+        ticket.save()
+
+        return JsonResponse({'message': 'Entrada Eliminada'})
+    else:
+        return JsonResponse({'error': 'No se pudo eliminar'})

@@ -23,5 +23,7 @@ urlpatterns = [
     path('event_list/', views.event_list, name='event_list'),
     path('client_ticket/', views.client_ticket, name='client_ticket'),
     path('reservar_entrada/<int:id_evento>/', views.reservar_entrada, name='reservar_entrada'),
+    path('pay_ticket/<int:id_entrada>/', views.pay_ticket, name='pay_ticket'),
+    path('delete_ticket/<int:id_entrada>/', views.delete_ticket, name='delete_ticket'),
     path('**', views.urbanpass, name='urban_home')
 ]

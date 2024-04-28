@@ -113,16 +113,17 @@
             border-radius: 50px;
         }
     </style>
-   
+
 </head>
 <body>
     <header class="navbar-container">
         <div class="logo">
-            <a href="#home"><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/130580982/326196336-77d99528-281c-4e2d-8cba-ab3a5e9097fa.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240427%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240427T194920Z&X-Amz-Expires=300&X-Amz-Signature=158af82c3d31c8c04bb66f49d61115d048de3341f00c4f885c73a33ec8af5f8b&X-Amz-SignedHeaders=host&actor_id=130623774&key_id=0&repo_id=791434836" alt="company logo"></a>
+            <a href="#home"><img src="https://github.com/AdrianoSCruzP/UrbanPassApp/assets/130580982/77d99528-281c-4e2d-8cba-ab3a5e9097fa" alt="company logo"></a>
         </div>
         <nav class="navbar-list">
             <ul>
                 {% if request.COOKIES.sessionid %}
+                <li><a href="../client_ticket">Mis Eventos</a></li>
                 <li><a href="../event_list">Lista de Eventos</a></li>
                 <li><a href="../logout">Logout</a></li>
                 {% else %}

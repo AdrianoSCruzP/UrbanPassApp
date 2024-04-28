@@ -16,16 +16,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for client_tk in client_ticket %}
+                        {% for client_ticket in client_ticket %}
                         <tr>
-                            <td>{{ client_tk.id_entrada.id_entrada }}</td>
-                            <td>{{ client_tk.id_entrada.id_evento.id_evento }}</td>
-                            <td>{{ client_tk.id_entrada.id_evento.nombre }}</td>
-                            <td>{{ client_tk.id_entrada.estado }}</td>
+                            <td>{{ client_ticket.id_entrada.id_entrada }}</td>
+                            <td>{{ client_ticket.id_entrada.id_evento.id_evento }}</td>
+                            <td>{{ client_ticket.id_entrada.id_evento.nombre }}</td>
+                            <td>{{ client_ticket.id_entrada.estado }}</td>
                             <td>
-                                {% if client_tk.id_entrada.estado == 'Reservada'%}
-                                <a class="btn btn-primary">Pagar entrada</a>
-                                <a class="btn btn-danger">Eliminar reserva</a>
+                                {% if client_ticket.id_entrada.estado == 'Reservada'%}
+                                <a href="../pay_ticket/{{ client_ticket.id_entrada.id_entrada }}/" class="btn btn-primary">Pagar entrada</a>
+                                <a href="../delete_ticket/{{ client_ticket.id_entrada.id_entrada }}/" class="btn btn-danger">Eliminar reserva</a>
                                 {% endif%}
                             </td>
                         </tr>

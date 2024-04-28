@@ -8,16 +8,17 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nombre</th>
                             <th>Fecha</th>
                             <th>Capacidad</th>
                             <th>Acciones</th>
-                            <th>ID</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for event in event_list %}
                         <tr>
+                            <td>{{event.id_evento}}</td>
                             <td>{{ event.nombre }}</td>
                             <td>{{ event.fecha }}</td>
                             <td>{{ event.id_lugar_evento.capacidad }}</td>
@@ -25,7 +26,6 @@
                                 <a href="../reservar_entrada/{{ event.id_evento }}/" class="btn btn-warning btn-reservar">Reservar</a>
                                 <a class="btn btn-danger">Pagar</a>
                             </td>
-                            <td>{{event.id_evento}}</td>
                         </tr>
 
                         {% endfor %}
