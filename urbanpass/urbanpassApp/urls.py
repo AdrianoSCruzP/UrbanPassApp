@@ -22,5 +22,6 @@ urlpatterns = [
     path('logout/', views.signout, name='logout'),
     path('event_list/', views.event_list, name='event_list'),
     path('client_ticket/', views.client_ticket, name='client_ticket'),
-    path('reservar_entrada/<int:entrada_id>/', views.reservar_entrada, name='reservar_entrada'),
+    path('reservar_entrada/<int:id_evento>/', views.reservar_entrada, name='reservar_entrada'),
+    path('**', views.urbanpass, name='urban_home')
 ]

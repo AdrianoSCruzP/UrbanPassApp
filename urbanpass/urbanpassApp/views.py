@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.db.models import Count, Avg
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import login, logout
-from .models import Usuario, Evento, EntradaXClientes, Valoracion, LugarEvento, Promotor
+from .models import Usuario, Evento, EntradaXClientes, Valoracion, LugarEvento, Promotor, TipoEntrada, Entrada,Cliente
 from django.http import HttpResponse
 from .forms import UserRegisterForm
 from .models import Evento,EntradaXClientes,Entrada
+from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, LoginForm
 from django.http import JsonResponse
 import re
+from django.contrib.sessions.models import Session
 # Create your views here.
 
 def urbanpass(request):
@@ -88,10 +90,10 @@ def signin(request):
             email = form.cleaned_data['email']
             contrasena = form.cleaned_data['contrasena']
             try:
-                usuario = Usuario.objects.get(email=email)
-                if check_password(contrasena, usuario.contrasena):
-                    login(request, usuario) 
-                    return redirect('/urban_home/', {'usuario': usuario})  
+                user = Usuario.objects.get(email=email)
+                if check_password(contrasena, user.contrasena):
+                    login(request, user) 
+                    return redirect('/urban_home/')  
                 else:
                     error_message = 'La contraseña es incorrecta.'
             except Usuario.DoesNotExist:
@@ -108,14 +110,47 @@ def client_ticket(request):
     context = {'client_ticket': EntradaXClientes.objects.filter(id_cliente='4').select_related('id_cliente', 'id_entrada')}
     return render(request, 'urbanpassApp/client_ticket.html', context)
 
-def reservar_entrada(request, entrada_id):
-    # Obtiene la entrada de la base de datos
-    entrada = get_object_or_404(Entrada, id_entrada=entrada_id)
+def get_user_from_session_cookie(request):
+    session_key = request.COOKIES.get('sessionid')
 
-    # Actualiza el estado de la entrada
-    entrada.estado = 'Reservada'
-    entrada.save()
+    if session_key:
+        try:
+            session = Session.objects.get(session_key=session_key)
+        except Session.DoesNotExist:
+            return None
 
-    # Devuelve una respuesta JSON para indicar que la actualización fue exitosa
-    return JsonResponse({'message': 'Estado actualizado a Reservada'})
+        session_data = session.get_decoded()
 
+        user_id = session_data.get('_auth_user_id')
+
+        if user_id:
+            try:
+                user = Usuario.objects.get(pk=user_id)
+                return user
+            except Usuario.DoesNotExist:
+                return None
+    return None
+
+def reservar_entrada(request, id_evento):
+    usuario = get_user_from_session_cookie(request)
+    if usuario:
+        cliente_id = usuario.id_usuario
+        
+        cliente = get_object_or_404(Cliente, id_cliente=cliente_id)
+
+        ultima_entrada = Entrada.objects.latest('id_entrada')
+        ultimo_id_entrada = ultima_entrada.id_entrada if ultima_entrada else 0
+        
+        nuevo_id_entrada = ultimo_id_entrada + 1
+        tipo_entrada = TipoEntrada.objects.get(id_tipo_entrada=1)
+
+        nueva_entrada = Entrada.objects.create(id_entrada=nuevo_id_entrada, estado='Reservada', id_evento_id=id_evento, id_tipo_entrada= tipo_entrada)
+        nueva_entradaxcliente = EntradaXClientes.objects.create(id_entrada=nueva_entrada, id_cliente=cliente)
+
+        entrada = get_object_or_404(Entrada, id_entrada=nuevo_id_entrada)
+        entrada.estado = 'Reservada'
+        entrada.save()
+
+        return JsonResponse({'message': 'Entrada creada y estado actualizado a Reservada'})
+    else:
+        return JsonResponse({'error': 'No se ha iniciado sesión'})
