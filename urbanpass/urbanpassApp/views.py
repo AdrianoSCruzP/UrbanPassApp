@@ -203,9 +203,11 @@ def pay_ticket(request, id_entrada):
         ticket.estado = 'Vendida'
         ticket.save()
 
-        return JsonResponse({'message': 'Entrada Vendida'})
+        message = 'Entrada Pagada Exitosamente'
+        return redirect('/client_ticket/?message=' + message)
     else:
-        return JsonResponse({'error': 'No se pudo vender no tiene plata'})
+        message = 'Error al Pagar la Entrada'
+        return redirect('/client_ticket/?message=' + message)
 
 def delete_ticket(request, id_entrada):
     user = get_user_from_session_cookie(request)
@@ -217,6 +219,8 @@ def delete_ticket(request, id_entrada):
         ticket.estado = 'Disponible'
         ticket.save()
 
-        return JsonResponse({'message': 'Entrada Eliminada'})
+        message = 'Entrada Eliminada Exitosamente'
+        return redirect('/client_ticket/?message=' + message)
     else:
-        return JsonResponse({'error': 'No se pudo eliminar'})
+        message = 'Error al Eliminar la Entrada'
+        return redirect('/client_ticket/?message=' + message)
